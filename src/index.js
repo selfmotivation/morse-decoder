@@ -38,7 +38,28 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let digitsBlocks = expr.match(/.{1,10}/g);
+    let dotsAndDashes = [];
+    let resultArray = [];
+    let result = '';
+    for (let digitBlock of digitsBlocks) {
+        if (digitBlock == "**********") {
+            resultArray.push(' ');
+        } else {
+            let digitPairsBlock = digitBlock.match(/.{1,2}/g);
+            for (let digitPair of digitPairsBlock) {
+                if (digitPair == '10') {
+                    dotsAndDashes.push('.');
+                } else if (digitPair == '11') {
+                    dotsAndDashes.push('-');
+                }
+            }
+            resultArray.push(MORSE_TABLE[dotsAndDashes.join('')]);
+            dotsAndDashes = [];
+        }    
+    }
+    result = resultArray.join('');
+    return result;
 }
 
 module.exports = {
